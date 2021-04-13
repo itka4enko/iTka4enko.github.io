@@ -47,7 +47,7 @@
 }
 .view#header-section{
    top: 0;
-   width: 100%;
+   overflow: hidden;
 }
 .view__visible{
     z-index: 1000;
