@@ -1,9 +1,9 @@
 @keyframes slide-down{
     0%{
-       transform: translateY(-100vh); 
+       transform: translateY(0); 
     }
     100%{
-        transform: translateY(0); 
+        transform: translateY(100vh); 
     }
 }
 @keyframes slide-up{
@@ -24,15 +24,31 @@
         transform: scale(0.9);
     }
 }
+@keyframes fade-in{
+    0%{
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100%{
+        opacity: 1;
+        transform: scale(1);
+    }
+}
 
 .slide-down{
-    animation: slide-down .8s;
+    animation: slide-down .8s ease;
 }
 .slide-up{
     animation: slide-up .8s;
 }
+.slide-up-fast{
+    animation: slide-up .8s linear;
+}
 .fade-out{
     animation: fade-out .8s;
+}
+.fade-in{
+    animation: fade-in .8s;
 }
 
 .view{
@@ -47,7 +63,6 @@
 }
 .view#header-section{
    top: 0;
-   overflow: hidden;
 }
 .view__visible{
     z-index: 1000;
@@ -55,6 +70,9 @@
 }
 .temporary-visible{
     display: block;
+}
+.black-nav{
+    background: rgb(0, 11, 20) none repeat scroll 0% 0% !important;
 }
 
 

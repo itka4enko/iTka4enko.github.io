@@ -1,4 +1,9 @@
 $(document).ready(function(){
+	if($(window).width() === 768){
+		$('header .header-navigation ul li div').on('click', ()=>{
+			$('.header-navigation').css('visibility', 'hidden')
+		})
+	}
 
 	let setSectionTitleAbout = function () {
 

@@ -20,18 +20,12 @@ $(document).ready(function(){
         navigate(e.target)
         if(choosenView !== 'view__visible'){
             if($(window).scrollTop() > 0){
-                //scroll top
-                $('html, body').animate({
-                    scrollTop: $('body').offset().top
-                }, 300);
                 //then change page
+                let elem = changeViewByID(views, e.target.getAttribute('data'), 'slide-up')
                 setTimeout(()=>{
-                    let elem = changeViewByID(views, e.target.getAttribute('data'), 'slide-up')
-                    setTimeout(()=>{
-                        clickebl = true
-                        elem.classList.remove('slide-up')
-                    }, 800)
-                }, 300)
+                    clickebl = true
+                    elem.classList.remove('slide-up')
+                }, 800)
             }else{
                 let elem = changeViewByID(views, e.target.getAttribute('data'), 'slide-up')
                 setTimeout(()=>{
@@ -42,22 +36,27 @@ $(document).ready(function(){
         }
     })
 
-    // let lastScrollTop = 0;
-    // $(window).on('scroll', ()=>{
-    //     let st = $(this).scrollTop();
-
-    //     if($(window).scrollTop() + $(window).height() == $(document).height()){
-    //         if (st > lastScrollTop){
-    //             // downscroll code
-    //             changeViewByOrder(views, 1)
-    //         } else {
-    //            // upscroll code
-    //            changeViewByOrder(views, -1)
-    //         } 
-    //     }
-
-    //     lastScrollTop = st;
-    // })
+    let scrollEbl = true
+    document.querySelector('body').addEventListener('wheel', (e)=>{
+        if(scrollEbl){
+            if (e.deltaY > 0 && $(window).scrollTop() + $(window).height() === $(document).height()){
+                // downscroll code
+                scrollEbl = false
+                changeViewByOrder(views, 1)
+                setTimeout(()=>{
+                    scrollEbl = true
+                    $('body').css('overflow-y', 'scroll')
+                }, 800)
+            } else if(e.deltaY < 0 && !$(window).scrollTop()){
+               // upscroll code
+               scrollEbl = false
+               changeViewByOrder(views, -1)
+               setTimeout(()=>{
+                    scrollEbl = true
+               }, 800)
+            } 
+        }
+    })
     
     // methods -----------------------------
     function navigate(target){
@@ -71,43 +70,79 @@ $(document).ready(function(){
         let elem = null
         let v = null
 
+        if(animation === 'slide-up'){
+            $('html, body').animate({
+                scrollTop: $('body').offset().top
+            }, 0);
+        }
+
         views.forEach((view, index) => {
-            if(view.classList[1] === 'view__visible'){
+            if([...view.classList].find(elem => elem === 'view__visible') === 'view__visible'){
                 view.classList.remove('view__visible')
-                view.classList.add('temporary-visible')
+                if(animation === 'slide-up'){
+                    view.classList.add('temporary-visible')
+                }
                 v = view
             }
             if('#'+view.id === id){
                 view.classList.add('view__visible')
-                view.classList.add(animation)
+                if(animation === 'slide-down'){
+                    view.classList.add('fade-in')
+                }else{
+                    view.classList.add(animation)
+                }
                 elem = view
                 i = index
+
+                if(view.id !== 'header-section'){
+                    $('#headerId').addClass('black-nav')
+                }else{
+                    $('#headerId').removeClass('black-nav') 
+                }
             }
         })
 
-        v.classList.add('fade-out')
-        setTimeout(()=>{
-            v.classList.remove('fade-out')
-            v.classList.remove('temporary-visible')
-        }, 800)
+        if(animation === 'slide-up'){
+            v.classList.add('fade-out') 
+            setTimeout(()=>{
+                v.classList.remove('fade-out')
+                v.classList.remove('temporary-visible')
+            }, 800)
+        }else{
+            $("html, body").animate({ scrollTop: $(document).height() }, 800);
+            v.classList.add('slide-down') 
+            setTimeout(()=>{
+                v.classList.remove('slide-down')
+                v.classList.remove('temporary-visible')
+            }, 800)
+        }
 
         return elem
     }
-    // function changeViewByOrder(views, direction){
-    //     let index = null
+    function changeViewByOrder(views, direction){
+        for(let i = 0; i < views.length; i++){
+            if([...views[i].classList].find(elem => elem === 'view__visible') === 'view__visible'){
+                if(direction > 0 && i < views.length-1){
+                    let id = '#'+views[i+1].id
+                    navigate($(`div[data="${id}"]`)[0])
+                    let elem = changeViewByID(views, id, 'slide-up')
+                    setTimeout(()=>{
+                        elem.classList.remove('slide-up')
+                        elem.classList.remove('fade-in')
+                    }, 800)
+                }
+                if(direction < 0 && i > 0){
+                    let id = '#'+views[i-1].id
+                    navigate($(`div[data="${id}"]`)[0])
+                    let elem = changeViewByID(views, id, 'slide-down')
+                    setTimeout(()=>{
+                        elem.classList.remove('slide-down')
+                        elem.classList.remove('fade-in')
+                    }, 800)
+                }
 
-    //     views.forEach((view, i) => {
-    //         if(view.classList[1] === 'view__visible'){
-    //             index = i
-    //         }
-    //         view.classList.remove('view__visible')
-    //     })
-
-    //     if(direction > 0 && index < views.length-1){
-    //         views[index+1].classList.add('view__visible')
-    //     }
-    //     if(direction > 0 && index > views.length-1){
-    //         views[index-1].classList.add('view__visible')
-    //     }
-    // }
+                return
+            }
+        }
+    }
 })
