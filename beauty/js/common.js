@@ -1,5 +1,6 @@
 $(document).ready(function(){
-	if($(window).width() === 768){
+	if($(window).width() <= 768){
+		console.log('700')
 		$('header .header-navigation ul li div').on('click', ()=>{
 			$('.header-navigation').css('visibility', 'hidden')
 		})

@@ -1366,6 +1366,9 @@ section#contact-section {
   section#header-section .h-s__footer .h-s__label{
     font-size: 11px;
   }
+  section#header-section .h-s__footer .h-s__label:after{
+    width: 295px;
+  }
 }
 @media (max-width: 394px) {
   section#header-section > section:first-child .h-s__main-block h1{
