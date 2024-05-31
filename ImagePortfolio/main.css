@@ -135,12 +135,6 @@ footer {
     100% { transform: rotate(360deg); }
 }
 
-/* Приховати контент до завантаження */
-#projects-container {
-    display: none;
-}
-
-
 /* Modal Styles */
 .modal {
     display: none;

@@ -24,18 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const captionText = document.getElementById('caption');
     const closeModal = document.querySelector('.close');
 
-    // Перевірка видимості елементів при прокрутці
-    function checkVisibility() {
-        elements.forEach(element => {
-            const rect = element.getBoundingClientRect();
-            if (rect.top < window.innerHeight && rect.bottom > 0) {
-                element.classList.add('visible');
-            } else {
-                element.classList.remove('visible');
-            }
-        });
-    }
-
     // Додавання обробника подій для кожного зображення проекту
     elements.forEach(element => {
         element.addEventListener('click', function() {
@@ -56,48 +44,20 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.style.display = 'none';
         }
     });
-
-    // Перевірка видимості елементів при завантаженні сторінки
-    checkVisibility();
-
-    // Перевірка видимості елементів при прокрутці сторінки
-    window.addEventListener('scroll', checkVisibility);
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-    const loader = document.getElementById('loader');
-    const projectsContainer = document.getElementById('projects-container');
-    const projectImages = document.querySelectorAll('.project img');
-    let imagesLoaded = 0;
+    // Очікування завантаження всіх зображень
+    window.addEventListener("load", function() {
+        // Знаходження елемента лоадера
+        const loader = document.getElementById("loader");
+        // Знаходження контейнера проектів
+        const projectsContainer = document.getElementById("projects-container");
 
-    function imageLoaded() {
-        imagesLoaded++;
-        if (imagesLoaded === projectImages.length) {
-            loader.style.display = 'none';
-            projectsContainer.style.display = 'block';
-        }
-    }
-
-    loader.style.display = 'block';
-    projectImages.forEach(img => {
-        if (img.complete) {
-            imageLoaded();
-        } else {
-            img.addEventListener('load', imageLoaded);
-            img.addEventListener('error', imageLoaded); // якщо зображення не вдалося завантажити
-        }
+        // Приховання лоадера
+        loader.style.display = "none";
+        // Відображення контейнера проектів
+        projectsContainer.style.display = "block";
     });
 });
 
-
-
-// FUNCTIONS----------------------
-// Відключення прокрутки сторінки
-function disableScroll() {
-    document.body.style.overflow = 'hidden';
-}
-
-// Включення прокрутки сторінки
-function enableScroll() {
-    document.body.style.overflow = null;
-}
