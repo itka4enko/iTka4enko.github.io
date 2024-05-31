@@ -47,13 +47,14 @@ section {
     transition: opacity 0.6s, transform 0.6s;
 }
 
-.projects-container {
+#projects-container {
     display: flex;
     flex-direction: column;
     justify-content: center; 
     align-items: center; 
     gap: 20px;
 }
+
 .project-list{
     display: flex;
     flex-direction: row; 
