@@ -64,6 +64,32 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', checkVisibility);
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+    const loader = document.getElementById('loader');
+    const projectsContainer = document.getElementById('projects-container');
+    const projectImages = document.querySelectorAll('.project img');
+    let imagesLoaded = 0;
+
+    function imageLoaded() {
+        imagesLoaded++;
+        if (imagesLoaded === projectImages.length) {
+            loader.style.display = 'none';
+            projectsContainer.style.display = 'block';
+        }
+    }
+
+    loader.style.display = 'block';
+    projectImages.forEach(img => {
+        if (img.complete) {
+            imageLoaded();
+        } else {
+            img.addEventListener('load', imageLoaded);
+            img.addEventListener('error', imageLoaded); // якщо зображення не вдалося завантажити
+        }
+    });
+});
+
+
 
 // FUNCTIONS----------------------
 // Відключення прокрутки сторінки
