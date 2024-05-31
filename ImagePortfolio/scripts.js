@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Приховання лоадера
         loader.style.display = "none";
         // Відображення контейнера проектів
-        projectsContainer.style.display = "block";
+        projectsContainer.style.display = "flex";
     });
 });
 
