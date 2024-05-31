@@ -35,7 +35,10 @@ document.addEventListener("DOMContentLoaded", function() {
         // Знаходження контейнера проектів
         const projectsContainer = document.getElementById("projects-container");
 
-        
+        // Приховання лоадера
+        loader.style.display = "none";
+        // Відображення контейнера проектів
+        projectsContainer.style.display = "flex";
     });
 });
 
